@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ViewClient Page</title>
+  <link rel="stylesheet" href="/dashboardstyle.css" />
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .nav {
+      flex: 1 1 20%;
+      min-width: 220px;
+      background: linear-gradient(rgba(216, 201, 174), rgba(53, 35, 35));
+      border-radius: 10px 0 0 10px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .contentdiv {
+      flex: 1 1 80%;
+      border-radius: 0 10px 10px 0;
+      min-height: 96vh;
+      padding: 20px;
+      overflow-x: auto;
+      margin-top: 40px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 16px;
+      
+    }
+
+    table,
+    tr,
+    th,
+    td {
+      border: 1px solid black;
+      
+    }
+
+    th,
+    td {
+      padding: 8px;
+      text-align: center;
+    }
+
+    /* Make responsive */
+    @media (max-width: 1024px) {
+      .container {
+        flex-direction: column;
+      }
+
+      .nav {
+        border-radius: 10px 10px 0 0;
+        flex: 1 1 100%;
+        min-height: auto;
+      }
+
+      .contentdiv {
+        border-radius: 0 0 10px 10px;
+        flex: 1 1 100%;
+      }
+    }
+
+    @media (max-width: 768px) {
+      table thead {
+        display: none;
+      }
+
+      table,
+      table tbody,
+      table tr,
+      table td {
+        display: block;
+       
+        width: 100%;
+      }
+
+      table tr {
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 10px;
+        background: #fff;
+      }
+
+      table td {
+        text-align: right;
+        padding-left: 50%;
+        position: relative;
+        border: none;
+        border-bottom: 1px solid #eee;
+      }
+
+      table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        width: 45%;
+        padding-left: 10px;
+        font-weight: bold;
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="navbar">
+      <%- include('partials/navbar') %>
+    </div>
+
+    <div class="contentdiv">
+      <h2>Client List</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Account Number</th>
+            <th>Date</th>
+            <th>Account Type</th>
+            <th>Name</th>
+            <th>Phone Number</th>
+            <th>E-mail</th>
+            <th>Setting</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% clientlist.forEach((client,i)=> { %>
+          <tr>
+            <td data-label="#"> <%= i+1 %> </td>
+            <td data-label="Account Number"> <%= client.account_number %> </td>
+            <td data-label="Date"> <%= new Date(client.date).toLocaleDateString() %> </td>
+            <td data-label="Account Type"> <%= client.account_type %> </td>
+            <td data-label="Name"> <%= client.name %> </td>
+            <td data-label="Phone Number"> <%= client.number %> </td>
+            <td data-label="E-mail"> <%= client.email %> </td>
+            <td data-label="Setting">
+              <div style="display: flex; justify-content: center; gap: 10px;">
+                <a href="/EditClient/<%= client._id %>"><i class="fa-solid fa-user-pen"></i></a>
+                <div class="dropdown1">
+                  <button class="dropbtn1"><i class="fa-solid fa-trash"></i></button>
+                  <div class="dropdown-content1">
+                    <p>Do You want to delete this Client?</p>
+                    <form action="/delete/<%= client._id %>" method="POST">
+                      <input type="hidden" name="id" value="<%= client._id %>">
+                      <div style="display: flex;gap: 10px;margin-bottom: 10px;">
+                        <button style="margin-left: 50px;" type="submit">Yes</button>
+                        <a href="/Client_List"><button type="button">No</button></a>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+
+      <% if (msg) { %>
+      <script>alert("<%= msg %>")</script>
+      <% } %>
+      <% if (err) { %>
+      <script>alert("<%= err %>")</script>
+      <% } %>
+    </div>
+  </div>
+</body>
+
+</html>

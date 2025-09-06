@@ -1,0 +1,36 @@
+.container{
+    display: flex;
+    border: none;
+}
+
+.navbar{
+    width: 20%;
+}
+
+.contentdiv{
+    width: 79%;
+    border: none;   
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+.topdiv{
+    font-size: 15x;
+    background-color: rgb(0, 0, 0);
+    position: absolute;
+    height: 40px;
+    color: wheat;
+    top: 9px;
+    width: 1067px;
+    border: none;
+    border-radius: 0px 10px 0px 0px;
+}
+
+.contentdiv h2{
+    font-size: 30px;
+}
+
+
+.contentdiv::-webkit-scrollbar {
+            display: none;
+        }

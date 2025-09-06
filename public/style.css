@@ -1,0 +1,55 @@
+.main{
+    display: flex;
+    gap: 10px;
+}
+.home {
+    background: linear-gradient(rgba(12, 12, 12, 0.8),
+            rgba(0, 0, 255, 0.7),
+            rgba(0, 0, 0, 0.5));
+    width: 20%;
+    height: 95vh;
+    border: none;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.home ul{
+    display: flex;
+    gap: 50px;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+    align-items: center;
+    
+}
+
+.home ul li {
+    list-style: none;
+    font-size: 20px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.home ul li a {
+    text-decoration: none;
+    color: white;
+    background-color: rgb(106, 207, 207);
+    padding: 10px 90px;
+    border: none;
+    border-radius: 10px;
+}
+.home ul li a:hover {
+    transform: scale(1.05);
+    background-color: white;
+    color: black;
+}
+
+.homebackground{
+    background: url(./images/1.webp);
+    width: 79%;
+    height: 95vh;
+    border: none;
+    border-radius: 10px;
+}

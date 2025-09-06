@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search Page</title>
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        .container {
+            display: flex;
+            border: none;
+        }
+
+        .navbar {
+            width: 20%;
+        }
+
+        .contentdiv {
+            width: 79%;
+            border: none;
+        }
+
+        .topdiv {
+            font-size: 15x;
+            background-color: rgb(0, 0, 0);
+            position: absolute;
+            height: 40px;
+            color: wheat;
+            top: 9px;
+            width: 1067px;
+            border: none;
+            border-radius: 0px 10px 0px 0px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="navbar">
+            <%- include('partials/navbar') %>
+        </div>
+
+        <div class="contentdiv">
+            
+            <div style="margin-top: 100px;margin-left: 20px;">
+                <h2>Admin Profile</h2>
+                <form action="/setting" method="post">
+
+                    <label for="">Current Password</label><br>
+                    <input type="password" name="currentpassword" id=""><br><br>
+                    <label for="">New Password</label><br>
+                    <input type="password" name="password" id=""><br><br>
+                    <label for="">Confirm Password</label><br>
+                    <input type="password" name="confirmpassword" id="">
+
+                    <% if (error) { %><p style="color:red"><%= error %></p><% } %>
+                                <% if (msg) { %>
+                                    <script>
+                                        alert("<%= msg %>");
+                                    </script>
+                                    <% } %>
+
+                            <br><br>
+                            <button>Update Password</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

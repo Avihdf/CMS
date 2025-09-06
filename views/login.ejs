@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: rgb(22, 22, 22);
+            background-size: 400% 400%;
+            animation: gradientShift 10s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+        }
+        
+        /* Animated background gradient */
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* Background pattern overlay */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 1px, transparent 1px),
+                radial-gradient(circle at 80% 50%, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 100px 100px, 150px 150px;
+            animation: float 20s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .loginpage {
+            width: 100%;
+            max-width: 420px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 50px 40px;
+            border-radius: 24px;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.15),
+                0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .login-box h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1a202c;
+            text-align: center;
+            margin-bottom: 40px;
+            letter-spacing: -0.02em;
+        }
+        
+        .login-box h1::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+        
+        .form-group {
+            margin-bottom: 24px;
+            position: relative;
+        }
+        
+        .form-group i {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a0aec0;
+            font-size: 16px;
+            transition: color 0.3s ease;
+            z-index: 2;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 18px 20px 18px 50px;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 400;
+            transition: all 0.3s ease;
+            background: rgba(248, 250, 252, 0.8);
+            color: #2d3748;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: rgba(255, 255, 255, 0.95);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.15);
+        }
+        
+        .form-group input:focus + i,
+        .form-group input:not(:placeholder-shown) + i {
+            color: #667eea;
+        }
+        
+        .forgot-password {
+            display: block;
+            text-align: right;
+            font-size: 14px;
+            font-weight: 500;
+            color: #667eea;
+            text-decoration: none;
+            margin-bottom: 35px;
+            transition: all 0.3s ease;
+        }
+        
+        .forgot-password:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+        
+        .error-message {
+            color: #e53e3e;
+            font-size: 14px;
+            font-weight: 500;
+            text-align: center;
+            margin: 20px 0;
+            padding: 14px 18px;
+            background: rgba(254, 226, 226, 0.9);
+            border-radius: 12px;
+            border-left: 4px solid #e53e3e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .error-message::before {
+            content: '\f071';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+        }
+        
+        .btn-container {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .btn {
+            padding: 16px 32px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            position: relative;
+            overflow: hidden;
+            min-width: 120px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-primary::before {
+            content: '\f2f6';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            margin-right: 8px;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+            background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #4a5568;
+            border: 2px solid #e2e8f0;
+            backdrop-filter: blur(10px);
+        }
+        
+        .btn-secondary::before {
+            content: '\f060';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            margin-right: 8px;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(102, 126, 234, 0.1);
+            border-color: #667eea;
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+        
+        /* Loading animation for login button */
+        .btn-primary.loading::before {
+            content: '\f110';
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Mobile Responsiveness */
+        @media (max-width: 480px) {
+            .loginpage {
+                padding: 40px 30px;
+                margin: 15px;
+                max-width: 100%;
+            }
+            
+            .btn-container {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .btn {
+                width: 100%;
+                padding: 18px 32px;
+            }
+            
+            .login-box h1 {
+                font-size: 28px;
+            }
+            
+            .form-group input {
+                padding: 16px 18px 16px 45px;
+                font-size: 16px;
+            }
+            
+            .form-group i {
+                left: 15px;
+                font-size: 14px;
+            }
+        }
+        
+        @media (max-width: 320px) {
+            .loginpage {
+                padding: 30px 20px;
+            }
+            
+            .form-group input {
+                padding: 14px 16px 14px 40px;
+                font-size: 15px;
+            }
+            
+            .login-box h1 {
+                font-size: 24px;
+            }
+        }
+        
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            .loginpage {
+                background: rgba(26, 32, 44, 0.95);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            .login-box h1 {
+                color: #f7fafc;
+            }
+            
+            .form-group input {
+                background: rgba(45, 55, 72, 0.8);
+                color: #e2e8f0;
+                border-color: #4a5568;
+            }
+            
+            .form-group input:focus {
+                background: rgba(45, 55, 72, 0.95);
+            }
+            
+            .btn-secondary {
+                color: #e2e8f0;
+                border-color: #4a5568;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loginpage">
+        <div class="login-box">
+            <h1>Admin Login</h1>
+            
+            <form action="/login" method="post">
+                <div class="form-group">
+                    <input type="email" name="email" placeholder="Email Address" required>
+                    <i class="fas fa-envelope"></i>
+                </div>
+                
+                <div class="form-group">
+                    <input type="password" name="password" placeholder="Password" required>
+                    <i class="fas fa-lock"></i>
+                </div>
+                
+                <a href="/forget_Password" class="forgot-password">Forgot Password?</a>
+                
+                <% if (error) { %>
+                    <div class="error-message">
+                        <%= error %>
+                    </div>
+                <% } %>
+                
+                <div class="btn-container">
+                    <a href="/" class="btn btn-secondary">Back</a>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

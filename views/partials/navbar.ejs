@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMS Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f8fafc;
+        }
+
+        /* Navigation Sidebar */
+        .nav {
+            background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            width: 280px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .nav-header {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #ecf0f1;
+        }
+
+        /* Admin Profile */
+        .admin {
+            text-align: center;
+            padding: 25px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .admin-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #3498db;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+        }
+
+        .admin-avatar i {
+            font-size: 24px;
+            color: white;
+        }
+
+        .admin-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #ecf0f1;
+            margin-bottom: 15px;
+        }
+
+        .admin-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .admin-actions a {
+            color: #bdc3c7;
+            font-size: 16px;
+            padding: 8px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .admin-actions a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #3498db;
+        }
+
+        /* Navigation Options */
+        .nav-options {
+            padding: 20px 0;
+        }
+
+        .nav-item {
+            margin: 0 15px 5px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: #ecf0f1;
+            text-decoration: none;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 15px;
+        }
+
+        .nav-link:hover {
+            background: rgba(52, 152, 219, 0.2);
+            color: white;
+        }
+
+        .nav-link.active {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+
+        .nav-link i {
+            margin-right: 10px;
+            width: 18px;
+        }
+
+        /* Dropdown Styles */
+        .dropdown-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 12px 20px;
+            background: transparent;
+            border: none;
+            color: #ecf0f1;
+            font-size: 15px;
+            font-weight: 500;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-btn:hover {
+            background: rgba(52, 152, 219, 0.2);
+            color: white;
+        }
+
+        .dropdown-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            margin-left: 20px;
+        }
+
+        .dropdown-content.active {
+            max-height: 150px;
+        }
+
+        .dropdown-content .nav-link {
+            padding: 8px 15px;
+            font-size: 14px;
+            color: #bdc3c7;
+        }
+
+        .dropdown-content .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #3498db;
+        }
+
+        .dropdown-icon {
+            transition: transform 0.3s ease;
+            font-size: 12px;
+        }
+
+        .dropdown-btn.active .dropdown-icon {
+            transform: rotate(90deg);
+        }
+
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: #2c3e50;
+            border: none;
+            color: white;
+            font-size: 18px;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            z-index: 1100;
+        }
+
+        /* Mobile Overlay */
+        .nav-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        /* Main Content Area */
+        .main-content {
+            margin-left: 280px;
+            padding: 20px;
+            min-height: 100vh;
+            transition: margin-left 0.3s ease;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav {
+                transform: translateX(-100%);
+            }
+            
+            .nav.open {
+                transform: translateX(0);
+            }
+            
+            .hamburger {
+                display: block;
+            }
+            
+            .nav-overlay {
+                display: block;
+            }
+            
+            .nav-overlay.active {
+                opacity: 1;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding-top: 80px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav {
+                width: 260px;
+            }
+            
+            .nav-header h1 {
+                font-size: 24px;
+            }
+            
+            .admin-name {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hamburger Menu Button -->
+    <button class="hamburger" onclick="toggleNav()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Navigation Overlay for Mobile -->
+    <div class="nav-overlay" onclick="toggleNav()"></div>
+
+    <!-- Navigation Sidebar -->
+    <nav class="nav" id="nav">
+        <div class="nav-header">
+            <h1>CMS</h1>
+        </div>
+
+        <div class="admin">
+            <div class="admin-avatar">
+                <i class="fas fa-user-shield"></i>
+            </div>
+            <div class="admin-name">Admin</div>
+            <div class="admin-actions">
+                <a href="/dashboard" title="Dashboard">
+                    <i class="fas fa-home"></i>
+                </a>
+                <a href="/setting" title="Settings">
+                    <i class="fas fa-cog"></i>
+                </a>
+                <a href="/" title="Logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="nav-options">
+            <div class="nav-item">
+                <a href="/dashboard" class="nav-link active">
+                    <i class="fas fa-tachometer-alt"></i>Dashboard
+                </a>
+            </div>
+
+            <div class="nav-item">
+                <button class="dropdown-btn" onclick="toggleDropdown(this)">
+                    <span><i class="fas fa-cogs"></i>Services</span>
+                    <i class="fas fa-chevron-right dropdown-icon"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="/Add_service" class="nav-link">Add Services</a>
+                    <a href="/manageservice" class="nav-link">Manage Services</a>
+                </div>
+            </div>
+
+            <div class="nav-item">
+                <a href="/Add_client" class="nav-link">
+                    <i class="fas fa-user-plus"></i>Add Client
+                </a>
+            </div>
+
+            <div class="nav-item">
+                <a href="/Client_List" class="nav-link">
+                    <i class="fas fa-users"></i>Client List
+                </a>
+            </div>
+
+            <div class="nav-item">
+                <a href="/Invoice" class="nav-link">
+                    <i class="fas fa-file-invoice"></i>Invoice
+                </a>
+            </div>
+
+            <div class="nav-item">
+                <button class="dropdown-btn" onclick="toggleDropdown(this)">
+                    <span><i class="fas fa-chart-bar"></i>Reports</span>
+                    <i class="fas fa-chevron-right dropdown-icon"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="/b/w_dates_report" class="nav-link">Date Range Reports</a>
+                    <a href="/sales_report" class="nav-link">Sales Reports</a>
+                </div>
+            </div>
+
+            <div class="nav-item">
+                <a href="/Search_invoices" class="nav-link">
+                    <i class="fas fa-search"></i>Search Invoice
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <script>
+        function toggleNav() {
+            const nav = document.getElementById('nav');
+            const overlay = document.querySelector('.nav-overlay');
+            const hamburger = document.querySelector('.hamburger i');
+            
+            nav.classList.toggle('open');
+            overlay.classList.toggle('active');
+            
+            if (nav.classList.contains('open')) {
+                hamburger.className = 'fas fa-times';
+            } else {
+                hamburger.className = 'fas fa-bars';
+            }
+        }
+
+        function toggleDropdown(btn) {
+            const content = btn.nextElementSibling;
+            btn.classList.toggle('active');
+            content.classList.toggle('active');
+        }
+
+        // Close nav on mobile when clicking links
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    toggleNav();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

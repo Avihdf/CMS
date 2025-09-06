@@ -1,0 +1,71 @@
+.loginpage {
+    background: linear-gradient(90deg, rgb(15, 61, 62),
+            rgb(70, 115, 115),
+            rgb(15, 61, 62));
+    height: 95vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-box {
+    border:1px solid black;
+    width: 40%;
+    margin-top: -50px;
+    backdrop-filter: blur(2000px);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 10px;
+    padding-top: 0px;
+}
+
+.login-box p{
+    font-size: 40px;
+}
+
+.login-box input{
+    width: 400px;
+    background-color: rgb(80, 72, 72);
+    color: white;
+    font-size: 20px;
+    padding: 10px 10px;
+    border: none;
+    border-radius: 10px;
+}
+.login-box a{
+    text-decoration: none;
+    color: black;
+}
+.login-box a:hover{
+    color: blue;
+}
+
+
+.btn{
+    display: flex;
+}
+
+.btn a{
+    font-size: 20px;
+    padding: 10px 40px;
+    border: none;
+    border-radius: 20px;
+    background-color: black;
+    color: white;
+}
+.login-box button{
+    font-size: 20px;
+    padding: 10px 40px;
+    border: none;
+    border-radius: 20px;
+    background-color: black;
+    color: white;
+    cursor: pointer;
+}
+.login-box button:hover{
+    transform: scale(1.05);
+    
+}

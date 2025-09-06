@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manage Services - CMS</title>
+    <link rel="stylesheet" href="/dashboardstyle.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            width: 250px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .contentdiv {
+            margin-left: 270px;
+            width: calc(100% - 250px);
+            padding: 30px;
+            background-color: white;
+            min-height: 100vh;
+            overflow-x: auto;
+            margin-top: 40px;
+            
+        }
+
+        h2 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 30px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        thead th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 16px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 16px;
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        tbody td {
+            padding: 14px;
+            text-align: center;
+            border-bottom: 1px solid #f3f4f6;
+            font-size: 14px;
+            color: #374151;
+            vertical-align: middle;
+        }
+
+        tbody tr:hover {
+            background-color: #f8fafc;
+            transform: scale(1.01);
+            transition: all 0.2s ease;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Action Icons */
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .edit-icon {
+            color: #3b82f6;
+            font-size: 18px;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .edit-icon:hover {
+            color: #1d4ed8;
+        }
+
+        /* Delete Dropdown */
+        .dropdown1 {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropbtn1 {
+            background: transparent;
+            border: none;
+            color: #ef4444;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 5px;
+            transition: color 0.3s ease;
+        }
+
+        .dropbtn1:hover {
+            color: #dc2626;
+        }
+
+        .dropdown-content1 {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            z-index: 1000;
+            padding: 15px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .dropdown1:hover .dropdown-content1 {
+            display: block;
+        }
+
+        .dropdown-content1 p {
+            margin: 0 0 15px 0;
+            font-size: 14px;
+            color: #374151;
+            text-align: center;
+        }
+
+        .dropdown-content1 form {
+            margin: 0;
+        }
+
+        .dropdown-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .dropdown-content1 button {
+            padding: 6px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .dropdown-content1 button[type="submit"] {
+            background: #ef4444;
+            color: white;
+        }
+
+        .dropdown-content1 button[type="submit"]:hover {
+            background: #dc2626;
+        }
+
+        .dropdown-content1 a button {
+            background: #6b7280;
+            color: white;
+            text-decoration: none;
+        }
+
+        .dropdown-content1 a button:hover {
+            background: #4b5563;
+        }
+
+        /* Add Service Button */
+        .add-service-btn {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .add-service-btn:hover {
+            background: linear-gradient(135deg, #059669, #047857);
+            transform: translateY(-1px);
+        }
+
+        /* Mobile menu toggle */
+        .mobile-menu-toggle {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            z-index: 1100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                transform: translateX(-100%);
+                z-index: 1000;
+            }
+            
+            .navbar.open {
+                transform: translateX(0);
+            }
+
+            .contentdiv {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+
+            /* Mobile Table - Card Style */
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+
+            thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+
+            tbody tr {
+                border: 2px solid #e5e7eb;
+                border-radius: 12px;
+                padding: 15px;
+                margin-bottom: 15px;
+                background: white;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+
+            tbody td {
+                border: none;
+                padding: 8px 0;
+                text-align: right;
+                padding-left: 50%;
+                position: relative;
+                background: none;
+            }
+
+            tbody td:before {
+                content: attr(data-label) ": ";
+                position: absolute;
+                left: 6px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                text-align: left;
+                font-weight: 600;
+                color: #4b5563;
+            }
+
+            tbody td:last-child {
+                text-align: center;
+                padding-left: 0;
+            }
+
+            tbody td:last-child:before {
+                display: none;
+            }
+
+            .dropdown-content1 {
+                right: auto;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .contentdiv {
+                padding: 15px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            tbody tr {
+                padding: 12px;
+            }
+
+            tbody td {
+                font-size: 13px;
+                padding: 6px 0;
+            }
+
+            .dropdown-content1 {
+                min-width: 180px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Mobile Menu Toggle -->
+    <button class="mobile-menu-toggle" onclick="toggleMenu()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="container">
+        <div class="navbar" id="navbar">
+            <%- include('partials/navbar') %>
+        </div>
+
+        <div class="contentdiv">
+            <h2>
+                <i class="fas fa-cogs"></i>
+                Manage Services
+            </h2>
+
+            <a href="/Add_service" class="add-service-btn">
+                <i class="fas fa-plus"></i>
+                Add New Service
+            </a>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Serial No.</th>
+                        <th>Service Name</th>
+                        <th>Details</th>
+                        <th>Price</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% servicelist.forEach((service, i) => { %>
+                    <tr>
+                        <td data-label="Serial No."><%= i + 1 %></td>
+                        <td data-label="Service Name"><strong><%= service.service_name %></strong></td>
+                        <td data-label="Details"><%= service.details %></td>
+                        <td data-label="Price">$<%= service.price %></td>
+                        <td data-label="Actions">
+                            <div class="action-buttons">
+                                <a href="/editservice/<%= service._id %>" class="edit-icon" title="Edit Service">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+
+                                <div class="dropdown1">
+                                    <button class="dropbtn1" title="Delete Service">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                    <div class="dropdown-content1">
+                                        <p>Are you sure you want to delete this service?</p>
+                                        <form action="/Delete" method="POST">
+                                            <input type="hidden" name="id" value="<%= service._id %>">
+                                            <div class="dropdown-buttons">
+                                                <button type="submit">Yes, Delete</button>
+                                                <a href="/manageservice">
+                                                    <button type="button">Cancel</button>
+                                                </a>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+
+            <% if (msg) { %>
+            <script>
+                alert("<%= msg %>");
+            </script>
+            <% } %>
+
+            <% if (err) { %>
+            <script>
+                alert("<%= err %>");
+            </script>
+            <% } %>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            const navbar = document.getElementById('navbar');
+            const toggle = document.querySelector('.mobile-menu-toggle i');
+            
+            navbar.classList.toggle('open');
+            
+            if (navbar.classList.contains('open')) {
+                toggle.className = 'fas fa-times';
+            } else {
+                toggle.className = 'fas fa-bars';
+            }
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const navbar = document.getElementById('navbar');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            
+            if (!navbar.contains(event.target) && !toggle.contains(event.target) && navbar.classList.contains('open')) {
+                toggleMenu();
+            }
+        });
+    </script>
+</body>
+</html>

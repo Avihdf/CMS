@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        .nav {
+            height: 615px;
+            background: linear-gradient(rgba(216, 201, 174),
+                    rgba(53, 35, 35));
+            border: none;
+            border-radius: 10px 0px 0px 10px;
+            display: flex;
+            flex-direction: column;
+
+        }
+
+        .admin {
+            background: rgba(19, 75, 66, 0.8);
+            margin-top: -30px;
+            height: 31vh;
+        }
+
+        .icon a {
+            text-decoration: none;
+            color: rgb(255, 255, 255);
+            font-size: 20px;
+            padding-left: 20px;
+            margin-top: -10px;
+        }
+
+        .icon a:hover {
+            color: rgb(0, 0, 0);
+        }
+
+        .option {
+            display: flex;
+            flex-direction: column;
+            /* margin-top: 30px; */
+        }
+
+        .option a {
+            text-decoration: none;
+            color: black;
+            border: none;
+            font-size: 20px;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .option a:hover {
+            backdrop-filter: blur(100px);
+            color: white;
+            box-shadow: 0px 0px 10px black;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            margin: 10px 0;
+        }
+
+        .dropbtn {
+            background-color: transparent;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            color: rgb(0, 0, 0);
+            margin-left: 3px;
+        }
+
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 100%;
+            background-color: #f1f1f1;
+            min-width: 180px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 5px;
+        }
+
+        .dropdown-content a {
+            font-size: 15px;
+            color: black;
+            padding: 10px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: rgba(53, 35, 35);
+            backdrop-filter: blur(100px);
+            color: rgb(255, 255, 255);
+            box-shadow: 0px 0px 10px black;
+        }
+
+        .contentdiv {
+            background-color: rgb(230, 222, 222);
+            border: 1px solid black;
+            border-radius: 0px 10px 10px 0px;
+            height: 96vh;
+            width: 79%;
+        }
+
+        .container {
+            display: flex;
+            border: none;
+        }
+
+        .navbar {
+            width: 20%;
+        }
+
+        .contentdiv {
+            width: 79%;
+            border: none;
+            overflow: scroll;
+            overflow-x: hidden;
+        }
+
+        .topdiv {
+            font-size: 15x;
+            background-color: rgb(0, 0, 0);
+            position: absolute;
+            height: 40px;
+            color: wheat;
+            top: 9px;
+            width: 1067px;
+            border: none;
+            border-radius: 0px 10px 0px 0px;
+        }
+
+        .contentdiv h2 {
+            font-size: 30px;
+        }
+
+
+        .contentdiv::-webkit-scrollbar {
+            display: none;
+        }
+
+
+        .contentdiv label {
+            font-size: 15px;
+        }
+
+        .contentdiv input {
+            border: none;
+            border-radius: 10px;
+            background-color: rgb(196, 184, 184);
+            width: 90%;
+            font-size: 16px;
+            padding: 10px 15px;
+        }
+
+        .contentdiv button {
+            font-size: 18px;
+            background-color: rgb(46, 196, 176);
+            border: none;
+            border-radius: 20px;
+            padding: 10px 50px;
+            margin-left: 75%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="navbar">
+            <%- include('partials/navbar') %>
+        </div>
+
+        <div class="contentdiv">
+            
+            <div style="margin-top: 60px;margin-left: 20px;">
+                <h2>Edit Client</h2>
+                <form action="/EditClient" method="POST">
+
+                    <input type="hidden" name="_id" value="<%= clientdetail._id %>">
+
+                    <label for="">Account Type</label><br>
+                    <select name="account_type"
+                        style="width: 93%; padding: 10px 15px ;font-size: 16px;border: none;border-radius: 10px;background-color: rgb(196, 184, 184);">
+                        <option value="">Choose Account Type</option>
+                        <option value="Active Account" <%=clientdetail.account_type==='Active Account' ? 'selected' : ''
+                            %>>Active Account</option>
+                        <option value="Inactive Account" <%=clientdetail.account_type==='Inactive Account' ? 'selected'
+                            : '' %>>Inactive Account</option>
+                        <option value="Lead" <%=clientdetail.account_type==='Lead' ? 'selected' : '' %>>Lead</option>
+                        <option value="Unknown" <%=clientdetail.account_type==='Unknown' ? 'selected' : '' %>>Unknown
+                        </option>
+                    </select><br><br>
+
+                    <label for="">Name</label><br>
+                    <input type="text" name="name" id="" value="<%= clientdetail.name %>"><br><br>
+
+                    <label for="">Company Name</label><br>
+                    <input type="text" name="company_name" id="" value="<%= clientdetail.company_name %>"><br><br>
+
+                    <label for="">Pincode</label><br>
+                    <input type="text" name="pincode" id="" value="<%= clientdetail.pincode %>"><br><br>
+
+                    <label for="">Phone Number</label><br>
+                    <input type="text" name="number" id="" value="<%= clientdetail.number %>"><br><br>
+
+                    <label for="">Website Address</label><br>
+                    <input type="url" name="url" id="" value="<%= clientdetail.url %>"><br><br>
+
+
+                    <label for="">E-mail</label><br>
+                    <input type="email" name="email" value="<%= clientdetail.email %>"><br><br>
+
+                    <label for="">NewPassword</label><br>
+                    <input type="password" name="password" value="<%= clientdetail.password %>" placeholder="New Password">
+
+                    <% if (msg) { %>
+                        <script>alert("<%= msg %>")</script>
+                    <% } %>
+
+
+                            <br><br><br>
+                            <button>Update Detail</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

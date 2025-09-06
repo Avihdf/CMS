@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add Services Page</title>
+  <link rel="stylesheet" href="/dashboardstyle.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f5f7fa;
+    }
+
+    .container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Navbar default */
+    .navbar {
+      width: 20%;
+      min-width: 200px;
+      background: #222;
+      color: white;
+   
+    }
+
+    /* Hamburger button */
+    .menu-toggle {
+      display: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #333;
+      background: none;
+      border: none;
+    }
+
+    .contentdiv {
+      flex: 1;
+      padding: 20px;
+      margin-top: 50px;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      font-size: 24px;
+      color: #333;
+    }
+
+    form {
+      max-width: 500px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      display: block;
+      font-size: 15px;
+      margin-bottom: 5px;
+      font-weight: 600;
+      color: #444;
+    }
+
+    input {
+      font-size: 16px;
+      background-color: rgb(202, 195, 195);
+      padding: 10px;
+      width: 100%;
+      border: none;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    button {
+      border: none;
+      border-radius: 20px;
+      font-size: 18px;
+      padding: 10px 30px;
+      background: rgb(29, 180, 160);
+      cursor: pointer;
+      color: white;
+      display: block;
+      margin: 20px auto 0 auto;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: rgb(23, 150, 134);
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+
+      /* Show hamburger in mobile */
+      .menu-toggle {
+        display: block;
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        z-index: 1000;
+      }
+
+      /* Navbar background removed in mobile */
+      .navbar {
+        width: 100%;
+        background: transparent;
+        color: black;
+        min-height: auto;
+      }
+
+      .contentdiv {
+        width: 100%;
+        padding: 15px;
+      }
+
+      h2 {
+        font-size: 20px;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      form {
+        padding: 15px;
+      }
+
+      h2 {
+        font-size: 18px;
+      }
+
+      label {
+        font-size: 13px;
+      }
+
+      input {
+        font-size: 14px;
+        padding: 8px;
+      }
+
+      button {
+        width: 100%;
+        font-size: 16px;
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Hamburger Icon -->
+  <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+
+  <div class="container">
+    <div class="navbar">
+      <%- include('partials/navbar') %>
+    </div>
+
+    <div class="contentdiv">
+      <div style="margin-top: 40px;">
+        <h2><i class="fas fa-plus-circle"></i> Add Services</h2>
+        <form action="/Add_service" method="post">
+          <label for="service_name">Service Name</label>
+          <input type="text" name="service_name" id="service_name" placeholder="Service name">
+
+          <label for="details">Details of Service</label>
+          <input type="text" name="details" id="details" placeholder="Details of Service">
+
+          <label for="price">Price of Service</label>
+          <input type="text" name="price" id="price" placeholder="Price">
+
+          <% if (err) { %>
+          <p style="color:red"><%= err %></p>
+          <% } %>
+
+          <% if (msg) { %>
+          <script>
+            alert("<%= msg %>");
+          </script>
+          <% } %>
+
+          <button type="submit">Add</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
